@@ -1,7 +1,8 @@
 <h1>Smart Thermostat Control System</h1>
 
 <h2>Overview</h2>
-<p>The Smart Thermostat Control System is a WiFi-enabled solution designed to control Ariston boilers efficiently. It leverages the power of the ESP8266 microcontroller combined with a DHT22 temperature and humidity sensor, providing a user-friendly interface for remote heating control. This project aims to enhance energy efficiency and comfort in home heating systems.</p>
+<p>The Smart Thermostat Control System is a WiFi-enabled solution designed to control home heating. Currently, I'm using this thermostat efficiently with my Ariston Clas Evo. This script closes the circuit from the wires coming out of your central unit, allowing the heating to start when the circuit is closed. It leverages the power of the ESP8266 microcontroller combined with a DHT22 temperature and humidity sensor, providing a user-friendly interface for remote heating control. This project aims to enhance energy efficiency and comfort in home heating systems.</p>
+
 
 <h2>Features</h2>
 <ul>
