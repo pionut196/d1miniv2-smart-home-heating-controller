@@ -1,17 +1,16 @@
 <h1>Smart Thermostat Control System</h1>
 
 <h2>Overview</h2>
-<p>The Smart Thermostat Control System is a WiFi-enabled solution designed to control home heating. Currently, I'm using this thermostat efficiently with my Ariston Clas Evo. This script closes the circuit from the wires coming out of your central unit, allowing the heating to start when the circuit is closed. It leverages the power of the ESP8266 microcontroller combined with a DHT22 temperature and humidity sensor, providing a user-friendly interface for remote heating control. This project aims to enhance energy efficiency and comfort in home heating systems.</p>
-
+<p>The Smart Thermostat Control System is a WiFi-enabled, ESP8266-based solution designed to efficiently manage home heating. Currently in use with my Ariston Clas Evo, this system closes the circuit from the central heating unit, triggering the heating to start when the circuit is closed. Featuring the ESP8266 microcontroller combined with a DHT22 temperature and humidity sensor, it provides a user-friendly interface for remote heating control, enhancing both energy efficiency and home comfort.</p>
 
 <h2>Features</h2>
 <ul>
-    <li><strong>WiFi Connectivity</strong>: Control your heating system remotely from anywhere.</li>
+    <li><strong>WiFi Connectivity</strong>: Remotely control your heating system from anywhere.</li>
     <li><strong>OLED Display</strong>: Real-time temperature and humidity readings for accurate monitoring.</li>
-    <li><strong>DHT22 Sensor</strong>: High-precision environmental data collection.</li>
-    <li><strong>User-Friendly Web Interface</strong>: Easily adjust settings and view data.</li>
+    <li><strong>DHT22 Sensor</strong>: High-precision temperature and humidity sensor for accurate environmental data.</li>
+    <li><strong>User-Friendly Web Interface</strong>: Adjust settings and view data easily from any device.</li>
     <li><strong>Energy Saving</strong>: Optimize heating schedules to reduce energy consumption.</li>
-    <li><strong>Compatibility</strong>: Works seamlessly with Ariston gas boilers.</li>
+    <li><strong>Compatibility</strong>: Works seamlessly with Ariston gas boilers and similar systems.</li>
 </ul>
 
 <h2>Hardware Requirements</h2>
@@ -25,7 +24,7 @@
 
 <h2>Software Requirements</h2>
 <ul>
-    <li><strong>Arduino IDE</strong>: For programming the ESP8266</li>
+    <li><strong>Arduino IDE</strong>: Required for programming the ESP8266</li>
     <li><strong>Libraries</strong>:
         <ul>
             <li><code>DHT sensor library</code> for temperature and humidity readings</li>
