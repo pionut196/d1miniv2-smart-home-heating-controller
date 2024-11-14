@@ -3,6 +3,9 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <DHT.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+#include <Wire.h>
 
 const char* ssid = "RACE-DEV.COM";
 const char* parola = "tuning123?";
@@ -21,9 +24,11 @@ DHT dht(PIN_DHT, TIP_DHT);
 float temperaturaCurenta = 0.0;
 float temperaturaSetata = 19.0;
 bool esteIncalzirePornita = false;
-bool comfortMode = true;
+bool ecoMode = false;
 
 ESP8266WebServer server(80);
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 7200, 60000);
 
 String textAnimatie = "";
 bool animatiePornita = false;
@@ -81,7 +86,7 @@ void actualizeazaTemperatura() {
     temperaturaCurenta = temperaturaNoua;
 
     // Heating control thresholds with anti-cycling check
-    if (temperaturaCurenta < temperaturaSetata - 1.5 && !esteIncalzirePornita) {
+    if (temperaturaCurenta < temperaturaSetata - 0.5 && !esteIncalzirePornita) {
       pornesteIncalzirea();
     } else if (temperaturaCurenta >= temperaturaSetata && esteIncalzirePornita) {
       opresteIncalzirea();
@@ -142,6 +147,9 @@ String genereazaHTML() {
   html += "<button type='submit' class='btn btn-primary'>Seteaza</button></form>";
   
   html += "<p>Status incalzire: <strong>" + String(esteIncalzirePornita ? "Pornit" : "Oprit") + "</strong></p>";
+  html += "<p>Data si ora: <strong>" + timeClient.getFormattedTime() + "</strong></p>";
+  html += "<p>Mod Eco: <strong>" + String(ecoMode ? "Activat" : "Dezactivat") + "</strong></p>";
+  
   html += "<hr><h3>Animatie Text</h3>";
   html += "<form action='/start_animatie' method='get'><div class='mb-3'><label class='form-label'>Text pentru animatie:</label>";
   html += "<input type='text' name='text' class='form-control' placeholder='Introduceti textul'></div>";
@@ -151,29 +159,30 @@ String genereazaHTML() {
   return html;
 }
 
-
 // Display main page on web server
 void afisarePaginaPrincipala() {
   server.send(200, "text/html", genereazaHTML());
 }
 
-// Function to set temperature from web interface
+// Function to send current temperature to web interface
+void trimiteTemperatura() {
+  server.send(200, "text/plain", String(temperaturaCurenta, 1) + " C");
+}
+
 void seteazaTemperatura() {
   if (server.hasArg("temperatura")) {
     temperaturaSetata = server.arg("temperatura").toFloat();
     server.sendHeader("Location", "/");
     server.send(303);
 
-    // Immediately evaluate heating control after updating temperature setting
-    actualizeazaTemperatura();
+    if (temperaturaCurenta >= temperaturaSetata && esteIncalzirePornita) {
+      opresteIncalzirea();
+    } else if (temperaturaCurenta < temperaturaSetata - 0.5 && !esteIncalzirePornita) {
+      pornesteIncalzirea();
+    }
   } else {
     server.send(400, "text/plain", "Temperatura nu a fost setata corect.");
   }
-}
-
-// Function to send current temperature to web interface
-void trimiteTemperatura() {
-  server.send(200, "text/plain", String(temperaturaCurenta, 1) + " C");
 }
 
 void setup() {
@@ -196,23 +205,18 @@ void setup() {
   server.on("/start_animatie", pornesteAnimatie);
   server.on("/stop_animatie", opresteAnimatie);
   server.begin();
-  Serial.println("Serverul web este pornit.");
 
-  if (!ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("Nu s-a putut initializa OLED"));
-    for (;;);
-  }
+  timeClient.begin();
   dht.begin();
+
+  ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  afiseazaTemperatura();
 }
 
 void loop() {
   server.handleClient();
-  static unsigned long lastTempUpdate = 0;
-
-  if (millis() - lastTempUpdate > 2000) {
-    actualizeazaTemperatura();
-    lastTempUpdate = millis();
-  }
+  actualizeazaTemperatura();
+  timeClient.update();
 
   if (animatiePornita) {
     afiseazaAnimatie();
