@@ -1,5 +1,10 @@
 <h1>Smart Thermostat Control System</h1>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/ESP8266-D1%20Mini-blue?style=for-the-badge" alt="ESP8266 D1 Mini">
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=pionut196.d1miniv2-smart-home-heating-controller" alt="Visitor Counter">
+</p>
+
 <h2>Overview</h2>
 <p>The Smart Thermostat Control System is a WiFi-enabled, ESP8266-based solution designed to efficiently manage home heating. Currently in use with my Ariston Clas Evo, this system closes the circuit from the central heating unit, triggering the heating to start when the circuit is closed. Featuring the ESP8266 microcontroller combined with a DHT22 temperature and humidity sensor, it provides a user-friendly interface for remote heating control, enhancing both energy efficiency and home comfort.</p>
 
@@ -37,7 +42,7 @@
 <h2>Installation</h2>
 <ol>
     <li><strong>Clone the Repository</strong>:
-        <pre><code>git clone https://github.com/yourusername/smart-thermostat.git
+        <pre><code>git clone https://github.com/pionut196/d1miniv2-smart-home-heating-controller.git
 cd smart-thermostat</code></pre>
     </li>
     <li><strong>Install Required Libraries</strong>: Open the Arduino IDE, navigate to <strong>Sketch</strong> > <strong>Include Library</strong> > <strong>Manage Libraries</strong>, and install the necessary libraries mentioned above.</li>
